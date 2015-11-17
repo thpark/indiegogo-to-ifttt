@@ -4,11 +4,11 @@ Indiegogo Camapign Monitor
 This script monitors your Indiegogo campaign and sends notifications to your [Slack](https://slack.com/) and [IFTTT](https://ifttt.com/) if something happens (e.g. new contributions, new comments, etc.).
 
 I made it to share my campaign information with my team without hassle (I love automation).
-![Screenshot](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/slack.png)
+![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/slack.png)
 
 You can also integrate with IFTTT, which opens up a new world of possibilities.
-* [![Indiegogo to Email recipe](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/ifttt-email.png)](https://ifttt.com/recipes/343045-notify-indiegogo-comments-to-all-team-members)
-* [![Indiegogo to Tweeter recipe](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/ifttt-tweeter.png)](https://ifttt.com/recipes/343055-tweet-if-indiegogo-campaign-reaches-a-goal)
+* [![Indiegogo to Email recipe](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-email.png)](https://ifttt.com/recipes/343045-notify-indiegogo-comments-to-all-team-members)
+* [![Indiegogo to Tweeter recipe](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-tweeter.png)](https://ifttt.com/recipes/343055-tweet-if-indiegogo-campaign-reaches-a-goal)
 
 
 ## How to Set Up
@@ -30,8 +30,8 @@ This is an [incoming webhook URL of your Slack channel](https://my.slack.com/ser
 ### IFTTT Maker Key
 You will need this key to integrate with IFTTT. It's very straightforward to [create one here](https://ifttt.com/maker). Your key will be shown in the page.
 
-![Screenshot](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/ifttt-connect.png)
-![Screenshot](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/ifttt-connected.png)
+![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-connect.png)
+![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-connected.png)
 
 ### Campaign ID
 Your campaign ID is sort of hidden, so you need to find it by yourself. This script helps you find your campaign by keywords. If you don't see yours there, you will have to contact [Indiegogo Support](https://support.indiegogo.com/).
@@ -69,15 +69,15 @@ Note the `igg-status` will be triggered whenever your campaign reaches certain p
 ### Example (IF new comment, THEN email to everyone)
 1. Select EventName ([IFTTT Events])
 
-    ![Screenshot](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/ifttt-eventname.png)
+    ![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-eventname.png)
 
 2. Fill out email fields
 
-    ![Screenshot](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/ifttt-email-fields.png)
+    ![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-email-fields.png)
 
 3. Done
 
-    ![Screenshot](http://git.narantech.com/thpark/indiegogo-to-slack/raw/master/imgs/ifttt-recipe.png)
+    ![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-recipe.png)
 
 
 ## How to Reset
