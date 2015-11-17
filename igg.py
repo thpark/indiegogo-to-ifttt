@@ -249,10 +249,25 @@ def start():
     last_contrib_ts = DB.search(where('type') == 'contrib')
     if not last_contrib_ts:
         DB.insert({'ts': 0, 'type': 'contrib'})
+    # Insert markers for each campaign goal
+    goal = campaign['goal']
+    funds = campaign['collected_funds']
+    achieved = int(funds * 100 / goal)
+    for i in [30, 70, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]:
+        # notify at each achievement
+        p = 'p' + str(i)
+        marker = DB.search(where('type') == p)
+        if not marker and achieved >= i:
+            DB.insert({'ts': time.time(), 'type': p})
     update_interval = CONFIGS['update_interval']
-    while True:
-        check_now()
-        time.sleep(update_interval)
+    print "Start monitoring..."
+    try:
+        while True:
+            check_now()
+            time.sleep(update_interval)
+    except:
+        pass
+    print "Monitoring stopped."
 
 
 def ftl():
@@ -260,7 +275,7 @@ def ftl():
     """
     print "Indiegogo Campaign Monitor v0.1 (by taehyun@thenaran.com)"
     print
-    api_key = raw_input("Please enter your Indiegogo API key: ")
+    api_key = raw_input("Enter your Indiegogo API key [press enter to use the default]: ")
     if not api_key:
         api_key = 'ce450f4a26ed1b72136d58cd73fd38441e699f90aee8b7caacd0f144ad982a98'
     slack_url = raw_input("Enter your Slack URL (default: none): ")
@@ -316,8 +331,8 @@ def ftl():
         f.write(s)
 
     print
-    print "Do you want to sync from the beginning? If no, it will ignore all the current comments and contributions."
-    yes = raw_input("Do you want to sync existing data (yes/NO)? ")
+    print "Do you want to sync all comments and contributions from the beginning? If no, it will ignore existing ones and only start keeping track of them from now on. The campaign status and the perks status will be synced regardless of the choice."
+    yes = raw_input("Do you want to sync now (yes/NO)? ")
     yes = yes.strip().lower()
     if yes != 'yes' and yes != 'y':
         # Insert the current timestamp so that it would ignore the existing comments and contributions.
@@ -422,7 +437,7 @@ def _check_campaign_status():
         marker = DB.search(where('type') == p)
         if not marker and achieved >= i:
             DB.insert({'ts': time.time(), 'type': p})
-            msg = '"{title}" just reached {achieved}%: ${funds}'.format(
+            msg = '"{title}" reached {achieved}%: ${funds}'.format(
                 title=campaign['title'],
                 achieved=achieved,
                 funds=funds)
