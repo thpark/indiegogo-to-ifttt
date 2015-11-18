@@ -2,6 +2,7 @@ Indiegogo Camapign Monitor
 =========
 
 This script monitors your Indiegogo campaign and sends notifications to your [Slack](https://slack.com/) and [IFTTT](https://ifttt.com/) if something happens (e.g. new contributions, new comments, etc.).
+In fact, it can monitor any Indiegogo campaign, not only yours!
 
 I made it to share [my campaign information](https://www.indiegogo.com/projects/microbot-push-a-robotic-finger-for-your-buttons#/) with my team (I love automation). I hope you find it useful.
 ![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/slack.png)

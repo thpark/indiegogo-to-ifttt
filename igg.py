@@ -122,13 +122,13 @@ def all_campaigns():
             yield campaign
 
 
-def search_campaigns(terms, max_page=10):
+def search_campaigns(terms, max_page=10, only_mine=True):
     page = 1
     while True:
         payload = {'api_token': CONFIGS['api_key'],
                    'access_token': CONFIGS['access_token'],
                    'title': terms,
-                   'sort': 'new',
+                   'sort': only_mine and 'new' or 'popular_all',
                    'page': page
                    }
         logging.info("On page %s.", page)
@@ -141,7 +141,7 @@ def search_campaigns(terms, max_page=10):
             break
         for campaign in result['response']:
             for member in campaign['team_members']:
-                if member['account_id'] == CONFIGS['account_id']:
+                if not only_mine or member['account_id'] == CONFIGS['account_id']:
                     yield campaign
                     break
 
@@ -279,9 +279,7 @@ def ftl():
     if not api_key:
         api_key = 'ce450f4a26ed1b72136d58cd73fd38441e699f90aee8b7caacd0f144ad982a98'
     slack_url = raw_input("Enter your Slack URL (default: none): ")
-    ifttt_maker_key = raw_input("Enter your IFTTT maker key (required): ")
-    while not ifttt_maker_key:
-        ifttt_maker_key = raw_input("Please enter valid one: ")
+    ifttt_maker_key = _prompt_required("Enter your IFTTT maker key (required): ", "Please enter valid one: ")
     update_interval = raw_input("Input update interval in seconds [default: 60]: ")
     try:
         update_interval = int(update_interval)
@@ -302,28 +300,27 @@ def ftl():
     authenticate()
 
     print
-    print "Please enter your campaign ID. If you don't know what it is, type in keywords which would find your campaign."
-    campaign_id = raw_input("Input campaign ID or keywords: ")
-    while not campaign_id:
-        campaign_id = raw_input("Please enter valid one: ")
+    print "Please enter a campaign ID. If you don't know what it is, type in keywords which would find the campaign."
+    campaign_id = _prompt_required("Input campaign ID or keywords: ", "Please enter valid one: ")
     try:
         campaign_id = int(campaign_id)
     except:
+        only_mine = _prompt_yes_no("Is it your campaign", default_yes=False)
         terms = campaign_id
         found = False
         while not found:
-            for campaign in search_campaigns(terms, max_page=10):
+            for campaign in search_campaigns(terms, max_page=10, only_mine=only_mine):
                 print
                 print '[{title}]'.format(title=campaign['title'])
-                yes = raw_input("Is this your campaign (yes/NO)? ")
-                yes = yes.strip().lower()
-                if yes == 'yes' or yes == 'y':
+                yes = _prompt_yes_no("Select this one", default_yes=False)
+                if yes:
                     campaign_id = campaign['id']
                     found = True
                     break
             if not found:
                 print
-                terms = raw_input("Please use different keywords: ")
+                terms = _prompt_required("Please use different keywords: ", "Please enter valid one: ")
+                only_mine = _prompt_yes_no("Is it your campaign", default_yes=False)
     CONFIGS['campaign_id'] = campaign_id
     data['campaign_id'] = campaign_id
     s = json.dumps(data)
@@ -332,9 +329,8 @@ def ftl():
 
     print
     print "Do you want to sync all comments and contributions from the beginning? If no, it will ignore existing ones and only start keeping track of them from now on. The campaign status and the perks status will be synced regardless of the choice."
-    yes = raw_input("Do you want to sync now (yes/NO)? ")
-    yes = yes.strip().lower()
-    if yes != 'yes' and yes != 'y':
+    yes = _prompt_yes_no("Do you want to sync them", default_yes=False)
+    if not yes:
         # Insert the current timestamp so that it would ignore the existing comments and contributions.
         DB.insert({'ts': time.time(), 'type': 'comment'})
         DB.insert({'ts': time.time(), 'type': 'contrib'})
@@ -343,7 +339,7 @@ def ftl():
 def authenticate():
     access_token = DB.search(where('type') == 'access_token')
     if not access_token:
-        ident = raw_input('Indiegogo ID (email): ')
+        ident = _prompt_required('Indiegogo ID (email): ', 'Please enter your Indiegogo ID (email): ')
         password = getpass.getpass('Password: ')
         output = subprocess.check_output('curl -ss -X POST -d grant_type=password -d credential_type=email -d email={email} -d password={password} https://auth.indiegogo.com/oauth/token'.format(email=ident, password=password), shell=True)
         tokens = json.loads(output)
@@ -539,6 +535,25 @@ def _build_contrib_url(ident):
     return 'https://www.indiegogo.com/command_center/{slug}#/contributions/{ident}'.format(
         slug=CONFIGS['slug'],
         ident=ident)
+
+
+def _prompt_required(msg, retry_msg):
+    ret = raw_input(msg)
+    while not ret:
+        ret = raw_input(retry_msg)
+    return ret
+
+
+def _prompt_yes_no(question, default_yes=True):
+    yes = raw_input("{question} {yes_no}? ".format(question=question,
+                                                   yes_no=default_yes and '(YES/no)' or '(yes/NO)'))
+    yes = yes.strip().lower()
+    if yes == 'yes' or yes == 'y':
+        return True
+    elif yes == 'no' or yes == 'n':
+        return False
+    else:
+        return default_yes
 
 
 if __name__ == '__main__':
