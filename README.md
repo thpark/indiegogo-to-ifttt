@@ -14,14 +14,19 @@ You can also integrate with IFTTT, which opens up a new world of possibilities.
 
 
 ## How to Set Up
-Before you start, you will need Python on your computer (Python 2.7 or above), but you may not need to download it.
+Before you start, you will need Python on your computer (Python 2.7 or above), but you may not need to download it. If it's missing, you can [download Python here](https://www.python.org/downloads/release/python-2710/).
+If your Python version is 2.7.9 or higher, pip must be installed on your computer already. If it's not, you can follow [the instruction here](http://pip.readthedocs.org/en/stable/installing/) to install it yourself.
 
-To configure, type in
-    
+Once you have Python and pip ready, go ahead and clone this repository or [download the archive](https://github.com/thpark/indiegogo-to-ifttt/archive/master.zip) and unzip it.
+
+To configure, open a terminal window (or a command prompt on Windows) on the directory, and type in
+
     pip install -r requirements.txt
     python igg.py
 
-It will ask you to enter whatever is needed (e.g. API token, ID/PW, etc.) to monitor your campaign. I included some instructions below.
+If you don't know how to use a terminal, you can just double-click on one of the helper scripts (start.command for Mac, start.sh for others) to start it.
+
+Once it's running, it will ask you to enter whatever is needed (e.g. API token, ID/PW, etc.) to monitor your campaign. I included some instructions on where and how to get them below.
 
 ### Indiegogo API Token
 This is essential to make any request to the Indiegogo servers. You can get yours at [Indiegogo Developer Portal](http://developer.indiegogo.com/). I'm not sure if I can share mine, which is included in the script, so use it at your own risk.

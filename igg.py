@@ -260,7 +260,7 @@ def start():
         if not marker and achieved >= i:
             DB.insert({'ts': time.time(), 'type': p})
     update_interval = CONFIGS['update_interval']
-    print "Start monitoring..."
+    print "Start monitoring (CTRL-c to stop)..."
     try:
         while True:
             check_now()
@@ -278,7 +278,7 @@ def ftl():
     api_key = raw_input("Enter your Indiegogo API key [press enter to use the default]: ")
     if not api_key:
         api_key = 'ce450f4a26ed1b72136d58cd73fd38441e699f90aee8b7caacd0f144ad982a98'
-    slack_url = raw_input("Enter your Slack URL (default: none): ")
+    slack_url = raw_input("Enter your Slack webhook URL (default: none): ")
     ifttt_maker_key = _prompt_required("Enter your IFTTT maker key (required): ", "Please enter valid one: ")
     update_interval = raw_input("Input update interval in seconds [default: 60]: ")
     try:
@@ -328,8 +328,8 @@ def ftl():
         f.write(s)
 
     print
-    print "Do you want to sync all comments and contributions from the beginning? If no, it will ignore existing ones and only start keeping track of them from now on. The campaign status and the perks status will be synced regardless of the choice."
-    yes = _prompt_yes_no("Do you want to sync them", default_yes=False)
+    print "Do you want to sync all comments and contributions from the beginning? If no, it will ignore existing ones and only start keeping track of new ones from now on. Be warned if you choose to sync and there are already a lot of comments and contributions!"
+    yes = _prompt_yes_no("Do you want to sync existing comments and contributions", default_yes=False)
     if not yes:
         # Insert the current timestamp so that it would ignore the existing comments and contributions.
         DB.insert({'ts': time.time(), 'type': 'comment'})
