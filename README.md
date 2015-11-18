@@ -8,7 +8,7 @@ I made it to share [my campaign information](https://www.indiegogo.com/projects/
 ![Screenshot](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/slack.png)
 
 You can also integrate with IFTTT, which opens up a new world of possibilities.
-* [![Indiegogo to Email recipe](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-email.png)](https://ifttt.com/recipes/343045-notify-indiegogo-comments-to-all-team-members)
+* [![Indiegogo to Google Drive recipe](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-drive.png)](https://ifttt.com/recipes/343362-record-all-indiegogo-comments-to-google-drive)
 * [![Indiegogo to Tweeter recipe](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-tweeter.png)](https://ifttt.com/recipes/343055-tweet-if-indiegogo-campaign-reaches-a-goal)
 * [![Indiegogo to SMS recipe](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-sms.png)](https://ifttt.com/recipes/343099-send-me-sms-on-new-indiegogo-contribution)
 
