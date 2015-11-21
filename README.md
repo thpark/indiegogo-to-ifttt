@@ -13,6 +13,12 @@ You can also integrate with IFTTT, which opens up a new world of possibilities.
 * [![Indiegogo to SMS recipe](https://raw.githubusercontent.com/thpark/indiegogo-to-ifttt/master/imgs/ifttt-sms.png)](https://ifttt.com/recipes/343099-send-me-sms-on-new-indiegogo-contribution)
 
 
+# Use it as a web service
+Please [visit here](http://official.myprota.com/#indiegogo).
+
+
+# Use it on your computer (for advanced users)
+
 ## How to Set Up
 Before you start, you will need Python on your computer (Python 2.7 or above), but you may not need to download it. If it's missing, you can [download Python here](https://www.python.org/downloads/release/python-2710/).
 If your Python version is 2.7.9 or higher, pip must be installed on your computer already. If it's not, you can follow [the instruction here](http://pip.readthedocs.org/en/stable/installing/) to install it yourself.
