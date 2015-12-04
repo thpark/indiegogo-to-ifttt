@@ -311,7 +311,7 @@ def ftl():
         while not found:
             for campaign in search_campaigns(terms, max_page=10, only_mine=only_mine):
                 print
-                print '[{title}]'.format(title=campaign['title'])
+                print u'[{title}]'.format(title=campaign['title'])
                 yes = _prompt_yes_no("Select this one", default_yes=False)
                 if yes:
                     campaign_id = campaign['id']
@@ -412,7 +412,7 @@ def _check_contribs():
             #   value2 : direct link to the contributor
             #   value3 : avatar url of the contributor
             notify_ifttt('igg-contributions',
-                         '{contrib} claimed by {who} for ${amount}'.format(
+                         u'{contrib} claimed by {who} for ${amount}'.format(
                              contrib=contrib['perk']['label'],
                              who=contrib['by'],
                              amount=contrib['amount']),
@@ -433,7 +433,7 @@ def _check_campaign_status():
         marker = DB.search(where('type') == p)
         if not marker and achieved >= i:
             DB.insert({'ts': time.time(), 'type': p})
-            msg = '"{title}" reached {achieved}%: ${funds}'.format(
+            msg = u'"{title}" reached {achieved}%: ${funds}'.format(
                 title=campaign['title'],
                 achieved=achieved,
                 funds=funds)
@@ -481,7 +481,7 @@ def _check_perks_status():
                 #   value2 : direct link to the campaign
                 #   value3 : thumbnail of the campaign
                 notify_ifttt('igg-perks-status',
-                             '{perk} is almost sold out. - {claimed}/{available}'.format(perk=perk['label'],
+                             u'{perk} is almost sold out. - {claimed}/{available}'.format(perk=perk['label'],
                                                                                          claimed=perk['number_claimed'],
                                                                                          available=perk['number_available']),
                              CONFIGS['campaign_preview_url'],
@@ -512,7 +512,7 @@ def _check_perks_status():
                 #   value2 : direct link to the campaign
                 #   value3 : thumbnail of the campaign
                 notify_ifttt('igg-perks-status',
-                             '{perk} is completely sold out. - {claimed}/{available}'.format(perk=perk['label'],
+                             u'{perk} is completely sold out. - {claimed}/{available}'.format(perk=perk['label'],
                                                                                          claimed=perk['number_claimed'],
                                                                                          available=perk['number_available']),
                              CONFIGS['campaign_preview_url'],
