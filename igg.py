@@ -391,14 +391,13 @@ def _check_contribs():
             if not contrib['perk']:
                 # Contributed without selecting any perk
                 contrib['perk'] = {'label': 'No perk'}
+            contributor_name = \
+                contrib['by'] if 'contributor_name' not in contrib else contrib['contributor_name'],
             # notify in slack
-            write_to_slack('New contribution!',
-                           contrib['perk']['label'],
-                           'good',
-                           [
+            slack_fields = [
                                {
                                    'title': 'Name',
-                                   'value': contrib['by'],
+                                   'value': contributor_name,
                                    'short': False
                                },
                                {
@@ -406,16 +405,32 @@ def _check_contribs():
                                    'value': '$' + str(contrib['amount']),
                                    'short': False
                                }
-                           ])
+                           ]
+            if 'referrer_id' in contrib:
+                referrer = get_account_info(contrib['referrer_id'])
+                slack_fields.append({
+                    'title': 'Referrer',
+                    'value': referrer['name'],
+                    'short': False
+                })
+            else:
+                referrer = None
+            write_to_slack('New contribution!',
+                           contrib['perk']['label'],
+                           'good',
+                           slack_fields
+                           )
             # notify IFTTT:
             #   value1 : perk text
             #   value2 : direct link to the contributor
             #   value3 : avatar url of the contributor
             notify_ifttt('igg-contributions',
-                         u'{contrib} claimed by {who} for ${amount}'.format(
+                         u'{contrib} claimed by {who} for ${amount}{referrer}'.format(
                              contrib=contrib['perk']['label'],
-                             who=contrib['by'],
-                             amount=contrib['amount']),
+                             who=contributor_name,
+                             amount=contrib['amount'],
+                             referrer=u'' if not referrer else u' referred by {}'.format(referrer['name'])
+                         ),
                          _build_contrib_url(contrib['id']),
                          contrib['avatar_url'])
     else:
